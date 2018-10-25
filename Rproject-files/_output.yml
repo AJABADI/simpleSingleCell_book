@@ -1,0 +1,9 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      before: |
+        <li><a href="./">Low Level scRNA-seq Workflow</a></li>
+      after: |
+        <li><a href="https://github.com/AJABADI/" target="blank">See on GitHub</a></li>
+    download: ["pdf", "epub"]

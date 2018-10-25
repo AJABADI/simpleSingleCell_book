@@ -1,0 +1,23 @@
+--- 
+title: 'Simple Single Cell'
+author: |
+  | Aaron T. L. Lun (main author)
+  | Al J Abadi (to bookdown)
+date: '`r Sys.Date()`'
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: ''
+---
+
+# Title of Section 1
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
