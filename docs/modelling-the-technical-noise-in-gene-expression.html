@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</title>
+  <meta name="description" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  
+  
+  
+
+
+
+<meta name="date" content="2018-10-25">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="normalization-of-cell-specific-biases.html">
+<link rel="next" href="removing-the-batch-effect.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Low Level scRNA-seq Workflow</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#workflow-version-information"><i class="fa fa-check"></i><b>1.1</b> Workflow version information</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#scrna-seq-data-analysis-with-bioconductor"><i class="fa fa-check"></i><b>1.3</b> scRNA-seq data analysis with Bioconductor</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#obtaining-a-count-matrix"><i class="fa fa-check"></i><b>1.4</b> Obtaining a count matrix</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-information"><i class="fa fa-check"></i><b>1.5</b> Author information</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#author-contributions"><i class="fa fa-check"></i><b>1.5.1</b> Author contributions</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#competing-interests"><i class="fa fa-check"></i><b>1.5.2</b> Competing interests</a></li>
+<li class="chapter" data-level="1.5.3" data-path="index.html"><a href="index.html#grant-information"><i class="fa fa-check"></i><b>1.5.3</b> Grant information</a></li>
+<li class="chapter" data-level="1.5.4" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.5.4</b> Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Overview</a></li>
+<li class="chapter" data-level="3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html"><i class="fa fa-check"></i><b>3</b> Setting up the data</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#loading-in-the-count-matrix"><i class="fa fa-check"></i><b>3.1</b> Loading in the count matrix</a></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-cell-based-annotation"><i class="fa fa-check"></i><b>3.2</b> Incorporating cell-based annotation</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-gene-based-annotation"><i class="fa fa-check"></i><b>3.3</b> Incorporating gene-based annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html"><i class="fa fa-check"></i><b>4</b> Quality control on the cells</a><ul>
+<li class="chapter" data-level="4.1" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#defining-the-quality-control-metrics"><i class="fa fa-check"></i><b>4.1</b> Defining the quality control metrics</a></li>
+<li class="chapter" data-level="4.2" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#identifying-outliers-for-each-metric"><i class="fa fa-check"></i><b>4.2</b> Identifying outliers for each metric</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="classification-of-cell-cycle-phase.html"><a href="classification-of-cell-cycle-phase.html"><i class="fa fa-check"></i><b>5</b> Classification of cell cycle phase</a></li>
+<li class="chapter" data-level="6" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html"><i class="fa fa-check"></i><b>6</b> Examining gene-level expression metrics</a><ul>
+<li class="chapter" data-level="6.1" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#inspecting-the-most-highly-expressed-genes"><i class="fa fa-check"></i><b>6.1</b> Inspecting the most highly expressed genes</a></li>
+<li class="chapter" data-level="6.2" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#filtering-out-low-abundance-genes"><i class="fa fa-check"></i><b>6.2</b> Filtering out low-abundance genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html"><i class="fa fa-check"></i><b>7</b> Normalization of cell-specific biases</a><ul>
+<li class="chapter" data-level="7.1" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#using-the-deconvolution-method-to-deal-with-zero-counts"><i class="fa fa-check"></i><b>7.1</b> Using the deconvolution method to deal with zero counts</a></li>
+<li class="chapter" data-level="7.2" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#computing-separate-size-factors-for-spike-in-transcripts"><i class="fa fa-check"></i><b>7.2</b> Computing separate size factors for spike-in transcripts</a></li>
+<li class="chapter" data-level="7.3" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#applying-the-size-factors-to-normalize-gene-expression"><i class="fa fa-check"></i><b>7.3</b> Applying the size factors to normalize gene expression</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modelling-the-technical-noise-in-gene-expression.html"><a href="modelling-the-technical-noise-in-gene-expression.html"><i class="fa fa-check"></i><b>8</b> Modelling the technical noise in gene expression</a></li>
+<li class="chapter" data-level="9" data-path="removing-the-batch-effect.html"><a href="removing-the-batch-effect.html"><i class="fa fa-check"></i><b>9</b> Removing the batch effect</a></li>
+<li class="chapter" data-level="10" data-path="denoising-expression-values-using-pca.html"><a href="denoising-expression-values-using-pca.html"><i class="fa fa-check"></i><b>10</b> Denoising expression values using PCA</a></li>
+<li class="chapter" data-level="11" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html"><i class="fa fa-check"></i><b>11</b> Visualizing data in low-dimensional space</a><ul>
+<li class="chapter" data-level="11.1" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-pca"><i class="fa fa-check"></i><b>11.1</b> With PCA</a></li>
+<li class="chapter" data-level="11.2" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-t-sne"><i class="fa fa-check"></i><b>11.2</b> With <em>t</em>-SNE</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html"><i class="fa fa-check"></i><b>12</b> Clustering cells into putative subpopulations</a><ul>
+<li class="chapter" data-level="12.1" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#defining-cell-clusters-from-expression-data"><i class="fa fa-check"></i><b>12.1</b> Defining cell clusters from expression data</a></li>
+<li class="chapter" data-level="12.2" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#detecting-marker-genes-between-clusters"><i class="fa fa-check"></i><b>12.2</b> Detecting marker genes between clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="concluding-remarks.html"><a href="concluding-remarks.html"><i class="fa fa-check"></i><b>13</b> Concluding remarks</a></li>
+<li class="chapter" data-level="14" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>14</b> References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AJABADI/" target="blank">See on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelling-the-technical-noise-in-gene-expression" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Modelling the technical noise in gene expression</h1>
+<p>Variability in the observed expression values across genes can be driven by genuine biological heterogeneity or uninteresting technical noise.
+To distinguish between these two possibiltiies, we need to model the technical component of the variance of the expression values for each gene.
+We do so using the set of spike-in transcripts, which were added in the same quantity to each cell.
+Thus, the spike-in transcripts should exhibit no biological variability, i.e., any variance in their counts should be technical in origin.</p>
+<p>We use the <code>trendVar()</code> function to fit a mean-dependent trend to the variances of the log-expression values for the spike-in transcripts.
+We set <code>block=</code> to block on the plate of origin for each cell, to ensure that technical differences between plates do not inflate the variances.
+Given the mean abundance of a gene, the fitted value of the trend is then used as an estimate of the technical component for that gene.
+The biological component of the variance is finally calculated by subtracting the technical component from the total variance of each gene with the <code>decomposeVar</code> function.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">var.fit &lt;-<span class="st"> </span><span class="kw">trendVar</span>(sce, <span class="dt">parametric=</span><span class="ot">TRUE</span>, <span class="dt">block=</span>sce<span class="op">$</span>Plate,</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">    <span class="dt">loess.args=</span><span class="kw">list</span>(<span class="dt">span=</span><span class="fl">0.3</span>))</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">var.out &lt;-<span class="st"> </span><span class="kw">decomposeVar</span>(sce, var.fit)</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="kw">head</span>(var.out)</a></code></pre></div>
+<pre><code>## DataFrame with 6 rows and 6 columns
+##                                   mean              total
+##                              &lt;numeric&gt;          &lt;numeric&gt;
+## ENSMUSG00000103377 0.00801037877839526 0.0117416958615873
+## ENSMUSG00000103147  0.0344865345591075 0.0716382020605793
+## ENSMUSG00000103161 0.00521187224764422  0.004971239574775
+## ENSMUSG00000102331  0.0185051179446466 0.0323577082946858
+## ENSMUSG00000102948  0.0591783482173367 0.0886595415581617
+## Rp1                 0.0972805805064885  0.454538935512767
+##                                    bio               tech
+##                              &lt;numeric&gt;          &lt;numeric&gt;
+## ENSMUSG00000103377 -0.0237346026365764 0.0354762984981637
+## ENSMUSG00000103147 -0.0811139104461332  0.152752112506713
+## ENSMUSG00000103161 -0.0181138443394628 0.0230850839142378
+## ENSMUSG00000102331  -0.049601656974152 0.0819593652688378
+## ENSMUSG00000102948  -0.173456540044603  0.262116081602765
+## Rp1                 0.0236757758027058  0.430863159710061
+##                               p.value               FDR
+##                             &lt;numeric&gt;         &lt;numeric&gt;
+## ENSMUSG00000103377                  1                 1
+## ENSMUSG00000103147  0.999999999993329                 1
+## ENSMUSG00000103161                  1                 1
+## ENSMUSG00000102331  0.999999999998749                 1
+## ENSMUSG00000102948                  1                 1
+## Rp1                0.0345090750415943 0.150289201925332</code></pre>
+<p>We visually inspect the trend to confirm that it corresponds to the spike-in variances (Figure <a href="modelling-the-technical-noise-in-gene-expression.html#fig:hvgplot416b">8.1</a>)).
+The wave-like shape is typical of the mean-variance trend for log-expression values.
+A linear increase in the variance is observed as the mean increases from zero, as larger variances are possible when the counts increase.
+At very high abundances, the effect of sampling noise decreases due to the law of large numbers, resulting in a decrease in the variance.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">plot</span>(var.out<span class="op">$</span>mean, var.out<span class="op">$</span>total, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">0.6</span>, <span class="dt">xlab=</span><span class="st">&quot;Mean log-expression&quot;</span>, </a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">    <span class="dt">ylab=</span><span class="st">&quot;Variance of log-expression&quot;</span>)</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw">curve</span>(var.fit<span class="op">$</span><span class="kw">trend</span>(x), <span class="dt">col=</span><span class="st">&quot;dodgerblue&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">cur.spike &lt;-<span class="st"> </span><span class="kw">isSpike</span>(sce)</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="kw">points</span>(var.out<span class="op">$</span>mean[cur.spike], var.out<span class="op">$</span>total[cur.spike], <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:hvgplot416b"></span>
+<img src="simpleSingleCell_files/figure-html/hvgplot416b-1.png" alt="Variance of normalized log-expression values for each gene in the 416B dataset, plotted against the mean log-expression. The blue line represents the mean-dependent trend fitted to the variances of the spike-in transcripts (red)." width="672" />
+<p class="caption">
+Figure 8.1: Variance of normalized log-expression values for each gene in the 416B dataset, plotted against the mean log-expression. The blue line represents the mean-dependent trend fitted to the variances of the spike-in transcripts (red).
+</p>
+</div>
+<p>We check the distribution of expression values for the genes with the largest biological components.
+This ensures that the variance estimate is not driven by one or two outlier cells (Figure <a href="modelling-the-technical-noise-in-gene-expression.html#fig:hvgvioplot416b">8.2</a>).</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">chosen.genes &lt;-<span class="st"> </span><span class="kw">order</span>(var.out<span class="op">$</span>bio, <span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">plotExpression</span>(sce, <span class="dt">features=</span><span class="kw">rownames</span>(var.out)[chosen.genes]) <span class="op">+</span><span class="st"> </span>fontsize</a></code></pre></div>
+<div class="figure"><span id="fig:hvgvioplot416b"></span>
+<img src="simpleSingleCell_files/figure-html/hvgvioplot416b-1.png" alt="Violin plots of normalized log-expression values for the top 10 genes with the largest biological components in the 416B dataset. Each point represents the log-expression value in a single cell." width="672" />
+<p class="caption">
+Figure 8.2: Violin plots of normalized log-expression values for the top 10 genes with the largest biological components in the 416B dataset. Each point represents the log-expression value in a single cell.
+</p>
+</div>
+<p><strong>Comments from Aaron:</strong></p>
+<ul>
+<li>In practice, trend fitting is complicated by the small number of spike-in transcripts and the uneven distribution of their abundances.
+See the <em><a href="http://bioconductor.org/packages/simpleSingleCell">simpleSingleCell</a></em> vignette for more details on how to refine the fit.</li>
+<li>In the absence of spike-ins, users can set <code>use.spikes=FALSE</code> to fit a trend to the variances of the endogenous genes (see <em><a href="http://bioconductor.org/packages/simpleSingleCell">simpleSingleCell</a></em> vignette).
+Alternatively, we can create a trend based on the assumption of Poisson technical noise, as described in the vignette.</li>
+<li>Negative biological components are often obtained from <code>decomposeVar</code>.
+These are intuitively meaningless as it is impossible for a gene to have total variance below technical noise.
+Nonetheless, such values occur due to imprecise estimation of the total variance, especially for low numbers of cells.</li>
+<li><code>decomposeVar</code> also yields <em>p</em>-values that can be used to define HVGs at a specific threshold for the false discovery rate (FDR).
+We will discuss this in more detail later, as formal detection of HVGs is not necessary for feature selection during data exploration.</li>
+</ul>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="normalization-of-cell-specific-biases.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="removing-the-batch-effect.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["simpleSingleCell.pdf", "simpleSingleCell.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

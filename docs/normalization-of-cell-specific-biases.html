@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</title>
+  <meta name="description" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  
+  
+  
+
+
+
+<meta name="date" content="2018-10-25">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="examining-gene-level-expression-metrics.html">
+<link rel="next" href="modelling-the-technical-noise-in-gene-expression.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Low Level scRNA-seq Workflow</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#workflow-version-information"><i class="fa fa-check"></i><b>1.1</b> Workflow version information</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#scrna-seq-data-analysis-with-bioconductor"><i class="fa fa-check"></i><b>1.3</b> scRNA-seq data analysis with Bioconductor</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#obtaining-a-count-matrix"><i class="fa fa-check"></i><b>1.4</b> Obtaining a count matrix</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-information"><i class="fa fa-check"></i><b>1.5</b> Author information</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#author-contributions"><i class="fa fa-check"></i><b>1.5.1</b> Author contributions</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#competing-interests"><i class="fa fa-check"></i><b>1.5.2</b> Competing interests</a></li>
+<li class="chapter" data-level="1.5.3" data-path="index.html"><a href="index.html#grant-information"><i class="fa fa-check"></i><b>1.5.3</b> Grant information</a></li>
+<li class="chapter" data-level="1.5.4" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.5.4</b> Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Overview</a></li>
+<li class="chapter" data-level="3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html"><i class="fa fa-check"></i><b>3</b> Setting up the data</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#loading-in-the-count-matrix"><i class="fa fa-check"></i><b>3.1</b> Loading in the count matrix</a></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-cell-based-annotation"><i class="fa fa-check"></i><b>3.2</b> Incorporating cell-based annotation</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-gene-based-annotation"><i class="fa fa-check"></i><b>3.3</b> Incorporating gene-based annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html"><i class="fa fa-check"></i><b>4</b> Quality control on the cells</a><ul>
+<li class="chapter" data-level="4.1" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#defining-the-quality-control-metrics"><i class="fa fa-check"></i><b>4.1</b> Defining the quality control metrics</a></li>
+<li class="chapter" data-level="4.2" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#identifying-outliers-for-each-metric"><i class="fa fa-check"></i><b>4.2</b> Identifying outliers for each metric</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="classification-of-cell-cycle-phase.html"><a href="classification-of-cell-cycle-phase.html"><i class="fa fa-check"></i><b>5</b> Classification of cell cycle phase</a></li>
+<li class="chapter" data-level="6" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html"><i class="fa fa-check"></i><b>6</b> Examining gene-level expression metrics</a><ul>
+<li class="chapter" data-level="6.1" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#inspecting-the-most-highly-expressed-genes"><i class="fa fa-check"></i><b>6.1</b> Inspecting the most highly expressed genes</a></li>
+<li class="chapter" data-level="6.2" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#filtering-out-low-abundance-genes"><i class="fa fa-check"></i><b>6.2</b> Filtering out low-abundance genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html"><i class="fa fa-check"></i><b>7</b> Normalization of cell-specific biases</a><ul>
+<li class="chapter" data-level="7.1" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#using-the-deconvolution-method-to-deal-with-zero-counts"><i class="fa fa-check"></i><b>7.1</b> Using the deconvolution method to deal with zero counts</a></li>
+<li class="chapter" data-level="7.2" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#computing-separate-size-factors-for-spike-in-transcripts"><i class="fa fa-check"></i><b>7.2</b> Computing separate size factors for spike-in transcripts</a></li>
+<li class="chapter" data-level="7.3" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#applying-the-size-factors-to-normalize-gene-expression"><i class="fa fa-check"></i><b>7.3</b> Applying the size factors to normalize gene expression</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modelling-the-technical-noise-in-gene-expression.html"><a href="modelling-the-technical-noise-in-gene-expression.html"><i class="fa fa-check"></i><b>8</b> Modelling the technical noise in gene expression</a></li>
+<li class="chapter" data-level="9" data-path="removing-the-batch-effect.html"><a href="removing-the-batch-effect.html"><i class="fa fa-check"></i><b>9</b> Removing the batch effect</a></li>
+<li class="chapter" data-level="10" data-path="denoising-expression-values-using-pca.html"><a href="denoising-expression-values-using-pca.html"><i class="fa fa-check"></i><b>10</b> Denoising expression values using PCA</a></li>
+<li class="chapter" data-level="11" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html"><i class="fa fa-check"></i><b>11</b> Visualizing data in low-dimensional space</a><ul>
+<li class="chapter" data-level="11.1" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-pca"><i class="fa fa-check"></i><b>11.1</b> With PCA</a></li>
+<li class="chapter" data-level="11.2" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-t-sne"><i class="fa fa-check"></i><b>11.2</b> With <em>t</em>-SNE</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html"><i class="fa fa-check"></i><b>12</b> Clustering cells into putative subpopulations</a><ul>
+<li class="chapter" data-level="12.1" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#defining-cell-clusters-from-expression-data"><i class="fa fa-check"></i><b>12.1</b> Defining cell clusters from expression data</a></li>
+<li class="chapter" data-level="12.2" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#detecting-marker-genes-between-clusters"><i class="fa fa-check"></i><b>12.2</b> Detecting marker genes between clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="concluding-remarks.html"><a href="concluding-remarks.html"><i class="fa fa-check"></i><b>13</b> Concluding remarks</a></li>
+<li class="chapter" data-level="14" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>14</b> References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AJABADI/" target="blank">See on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="normalization-of-cell-specific-biases" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Normalization of cell-specific biases</h1>
+<div id="using-the-deconvolution-method-to-deal-with-zero-counts" class="section level2">
+<h2><span class="header-section-number">7.1</span> Using the deconvolution method to deal with zero counts</h2>
+<p>Read counts are subject to differences in capture efficiency and sequencing depth between cells <span class="citation">(Stegle, Teichmann, and Marioni <a href="#ref-stegle2015computational">2015</a>)</span>.
+Normalization is required to eliminate these cell-specific biases prior to downstream quantitative analyses.
+This is often done by assuming that most genes are not differentially expressed (DE) between cells.
+Any systematic difference in count size across the non-DE majority of genes between two cells is assumed to represent bias and is removed by scaling.
+More specifically, “size factors” are calculated that represent the extent to which counts should be scaled in each library.</p>
+<p>Size factors can be computed with several different approaches, e.g., using the <code>estimateSizeFactorsFromMatrix</code> function in the <em><a href="http://bioconductor.org/packages/DESeq2">DESeq2</a></em> package <span class="citation">(Anders and Huber <a href="#ref-anders2010differential">2010</a>; Love, Huber, and Anders <a href="#ref-love2014moderated">2014</a>)</span>, or with the <code>calcNormFactors</code> function <span class="citation">(Robinson and Oshlack <a href="#ref-robinson2010scaling">2010</a>)</span> in the <em><a href="http://bioconductor.org/packages/edgeR">edgeR</a></em> package.
+However, single-cell data can be problematic for these bulk data-based methods due to the dominance of low and zero counts.
+To overcome this, we pool counts from many cells to increase the count size for accurate size factor estimation <span class="citation">(Lun, Bach, and Marioni <a href="#ref-lun2016pooling">2016</a>)</span>.
+Pool-based size factors are then “deconvolved” into cell-based factors for cell-specific normalization.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">sce &lt;-<span class="st"> </span><span class="kw">computeSumFactors</span>(sce)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw">summary</span>(<span class="kw">sizeFactors</span>(sce))</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.3416  0.7229  0.9245  1.0000  1.1483  3.5925</code></pre>
+<p>The size factors are well-correlated with the library sizes for all cells (Figure <a href="normalization-of-cell-specific-biases.html#fig:normplot416b">7.1</a>).
+This suggests that most of the systematic differences between cells are driven by differences in capture efficiency or sequencing depth.
+Any DE between cells would yield a non-linear trend between the total count and size factor, and/or increased scatter around the trend.
+We observe some evidence of this after oncogene induction, where the size factors after induction are systematically lower.
+This is consistent with composition biases <span class="citation">(Robinson and Oshlack <a href="#ref-robinson2010scaling">2010</a>)</span> introduced by upregulation of genes after induction.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">plot</span>(sce<span class="op">$</span>total_counts<span class="op">/</span><span class="fl">1e6</span>, <span class="kw">sizeFactors</span>(sce), <span class="dt">log=</span><span class="st">&quot;xy&quot;</span>,</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">    <span class="dt">xlab=</span><span class="st">&quot;Library size (millions)&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Size factor&quot;</span>,</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">    <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;black&quot;</span>)[sce<span class="op">$</span>Oncogene], <span class="dt">pch=</span><span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="dt">col=</span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">cex=</span><span class="fl">1.2</span>,</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">    <span class="dt">legend=</span><span class="kw">levels</span>(sce<span class="op">$</span>Oncogene))</a></code></pre></div>
+<div class="figure"><span id="fig:normplot416b"></span>
+<img src="simpleSingleCell_files/figure-html/normplot416b-1.png" alt="Size factors from deconvolution, plotted against library sizes for all cells in the 416B dataset. Axes are shown on a log-scale. Wild-type cells are shown in black and oncogene-induced cells are shown in red." width="672" />
+<p class="caption">
+Figure 7.1: Size factors from deconvolution, plotted against library sizes for all cells in the 416B dataset. Axes are shown on a log-scale. Wild-type cells are shown in black and oncogene-induced cells are shown in red.
+</p>
+</div>
+<p><strong>Comments from Aaron:</strong></p>
+<ul>
+<li>While the deconvolution approach is robust to the high frequency of zeroes in scRNA-seq data, it will eventually fail if too many counts are zero.
+This manifests as negative size factors that are obviously nonsensical.
+To avoid this, the <code>computeSumFactors</code> function will automatically remove low-abundance genes prior to the calculation of size factors.
+Genes with a library size-adjusted average count below a specified threshold (<code>min.mean</code>) are ignored.
+<ul>
+<li>For read count data, the default value of 1 is usually satisfactory.
+For UMI data, counts are lower so a threshold of 0.1 is recommended.</li>
+<li>While the library size-adjusted average is not entirely independent of the bias <span class="citation">(Bourgon, Gentleman, and Huber <a href="#ref-bourgon2010independent">2010</a>)</span>, this is a better filter statistic than the sample mean count.
+The latter would enrich for genes that are upregulated in cells with large library sizes, resulting in inflated size factor estimates for those cells.</li>
+</ul></li>
+<li>Cell-based QC should always be performed prior to normalization, to remove cells with very low numbers of expressed genes.
+Otherwise, <code>computeSumFactors()</code> may yield negative size factors for low-quality cells.
+This is because too many zeroes are present in these cells, reducing the effectiveness of pooling to eliminate zeroes.
+Indeed, for some low-quality cells, the effect of cell damage on the transcriptome may already violate the non-DE assumption.</li>
+<li>The <code>sizes</code> argument can be used to specify the number of pool sizes to use to compute the size factors.
+More <code>sizes</code> yields more precise estimates at the cost of some computational time and memory.
+In general, all <code>sizes</code> should not above 20 cells to ensure that there are sufficient non-zero expression values in each pool.
+The total number of cells should also be at least 100 for effective pooling.</li>
+<li>For highly heterogeneous datasets, it is advisable to perform a rough clustering of the cells.
+This can be done with the <code>quickCluster</code> function and the results passed to <code>computeSumFactors</code> via the <code>cluster</code> argument.
+Cells in each cluster are normalized separately, and the size factors are rescaled to be comparable across clusters.
+This avoids the need to assume that most genes are non-DE across the entire population - only a non-DE majority is required between pairs of clusters.
+We demonstrate this approach later with a larger dataset in the next workflow.</li>
+</ul>
+</div>
+<div id="computing-separate-size-factors-for-spike-in-transcripts" class="section level2">
+<h2><span class="header-section-number">7.2</span> Computing separate size factors for spike-in transcripts</h2>
+<p>Size factors computed from the counts for endogenous genes are usually not appropriate for normalizing the counts for spike-in transcripts.
+Consider an experiment without library quantification, i.e., the amount of cDNA from each library is <em>not</em> equalized prior to pooling and multiplexed sequencing.
+Here, cells containing more RNA have greater counts for endogenous genes and thus larger size factors to scale down those counts.
+However, the same amount of spike-in RNA is added to each cell during library preparation.
+This means that the counts for spike-in transcripts are not subject to the effects of RNA content.
+Attempting to normalize the spike-in counts with the gene-based size factors will lead to over-normalization and incorrect quantification of expression.
+Similar reasoning applies in cases where library quantification is performed.
+For a constant total amount of cDNA, any increases in endogenous RNA content will suppress the coverage of spike-in transcripts.
+As a result, the bias in the spike-in counts will be opposite to that captured by the gene-based size factor.</p>
+<p>To ensure normalization is performed correctly, we compute a separate set of size factors for the spike-in set.
+For each cell, the spike-in-specific size factor is defined as the total count across all transcripts in the spike-in set.
+This assumes that none of the spike-in transcripts are differentially expressed, which is reasonable given that the same amount and composition of spike-in RNA should have been added to each cell <span class="citation">(Lun et al. <a href="#ref-lun2017assessing">2017</a>)</span>.
+(See below for a more detailed discussion on spike-in normalization.)
+These size factors are stored in a separate field of the <code>SingleCellExperiment</code> object by setting <code>general.use=FALSE</code> in <code>computeSpikeFactors</code>.
+This ensures that they will only be used with the spike-in transcripts but not the endogenous genes.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">sce &lt;-<span class="st"> </span><span class="kw">computeSpikeFactors</span>(sce, <span class="dt">type=</span><span class="st">&quot;ERCC&quot;</span>, <span class="dt">general.use=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
+<div id="applying-the-size-factors-to-normalize-gene-expression" class="section level2">
+<h2><span class="header-section-number">7.3</span> Applying the size factors to normalize gene expression</h2>
+<p>The count data are used to compute normalized log-expression values for use in downstream analyses.
+Each value is defined as the log<sub>2</sub>-ratio of each count to the size factor for the corresponding cell, after adding a prior count of 1 to avoid undefined values at zero counts.
+Division by the size factor ensures that any cell-specific biases are removed.
+If spike-in-specific size factors are present in <code>sce</code>, they will be automatically applied to normalize the spike-in transcripts separately from the endogenous genes.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">sce &lt;-<span class="st"> </span><span class="kw">normalize</span>(sce)</a></code></pre></div>
+<p>The log-transformation is useful as it means that any differences in the values directly represent log<sub>2</sub>-fold changes in expression between cells.
+This is usually more relevant than the absolute differences in coverage, which need to be interpreted in the context of the overall abundance.
+The log-transformation also provides some measure of variance stabilization <span class="citation">(Law et al. <a href="#ref-law2014voom">2014</a>)</span>, so that high-abundance genes with large variances do not dominate downstream analyses.
+The computed values are stored as an <code>&quot;logcounts&quot;</code> matrix in addition to the other assay elements.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-stegle2015computational">
+<p>Stegle, O., S. A. Teichmann, and J. C. Marioni. 2015. “Computational and analytical challenges in single-cell transcriptomics.” <em>Nat. Rev. Genet.</em> 16 (3): 133–45.</p>
+</div>
+<div id="ref-anders2010differential">
+<p>Anders, S., and W. Huber. 2010. “Differential expression analysis for sequence count data.” <em>Genome Biol.</em> 11 (10): R106.</p>
+</div>
+<div id="ref-love2014moderated">
+<p>Love, M. I., W. Huber, and S. Anders. 2014. “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” <em>Genome Biol.</em> 15 (12): 550.</p>
+</div>
+<div id="ref-robinson2010scaling">
+<p>Robinson, M. D., and A. Oshlack. 2010. “A scaling normalization method for differential expression analysis of RNA-seq data.” <em>Genome Biol.</em> 11 (3): R25.</p>
+</div>
+<div id="ref-lun2016pooling">
+<p>Lun, A. T., K. Bach, and J. C. Marioni. 2016. “Pooling across cells to normalize single-cell RNA sequencing data with many zero counts.” <em>Genome Biol.</em> 17 (April): 75.</p>
+</div>
+<div id="ref-bourgon2010independent">
+<p>Bourgon, R., R. Gentleman, and W. Huber. 2010. “Independent filtering increases detection power for high-throughput experiments.” <em>Proc. Natl. Acad. Sci. U.S.A.</em> 107 (21): 9546–51.</p>
+</div>
+<div id="ref-lun2017assessing">
+<p>Lun, A. T. L., F. J. Calero-Nieto, L. Haim-Vilmovsky, B. Gottgens, and J. C. Marioni. 2017. “Assessing the reliability of spike-in normalization for analyses of single-cell RNA sequencing data.” <em>Genome Res.</em> 27 (11): 1795–1806.</p>
+</div>
+<div id="ref-law2014voom">
+<p>Law, C. W., Y. Chen, W. Shi, and G. K. Smyth. 2014. “voom: Precision weights unlock linear model analysis tools for RNA-seq read counts.” <em>Genome Biol.</em> 15 (2): R29.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="examining-gene-level-expression-metrics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="modelling-the-technical-noise-in-gene-expression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["simpleSingleCell.pdf", "simpleSingleCell.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

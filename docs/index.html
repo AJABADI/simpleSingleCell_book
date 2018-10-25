@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Simple Single Cell</title>
-  <meta name="description" content="Simple Single Cell">
+  <title>Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</title>
+  <meta name="description" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor">
   <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Simple Single Cell" />
+  <meta property="og:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Simple Single Cell" />
+  <meta name="twitter:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
   
   
   
@@ -32,7 +32,7 @@
   
   
 
-
+<link rel="next" href="overview.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,6 +48,69 @@
 
 
 
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -65,7 +128,52 @@
 <li><a href="./">Low Level scRNA-seq Workflow</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="#title-of-section-1"><i class="fa fa-check"></i><b>1</b> Title of Section 1</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#workflow-version-information"><i class="fa fa-check"></i><b>1.1</b> Workflow version information</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#scrna-seq-data-analysis-with-bioconductor"><i class="fa fa-check"></i><b>1.3</b> scRNA-seq data analysis with Bioconductor</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#obtaining-a-count-matrix"><i class="fa fa-check"></i><b>1.4</b> Obtaining a count matrix</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-information"><i class="fa fa-check"></i><b>1.5</b> Author information</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#author-contributions"><i class="fa fa-check"></i><b>1.5.1</b> Author contributions</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#competing-interests"><i class="fa fa-check"></i><b>1.5.2</b> Competing interests</a></li>
+<li class="chapter" data-level="1.5.3" data-path="index.html"><a href="index.html#grant-information"><i class="fa fa-check"></i><b>1.5.3</b> Grant information</a></li>
+<li class="chapter" data-level="1.5.4" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.5.4</b> Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Overview</a></li>
+<li class="chapter" data-level="3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html"><i class="fa fa-check"></i><b>3</b> Setting up the data</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#loading-in-the-count-matrix"><i class="fa fa-check"></i><b>3.1</b> Loading in the count matrix</a></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-cell-based-annotation"><i class="fa fa-check"></i><b>3.2</b> Incorporating cell-based annotation</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-gene-based-annotation"><i class="fa fa-check"></i><b>3.3</b> Incorporating gene-based annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html"><i class="fa fa-check"></i><b>4</b> Quality control on the cells</a><ul>
+<li class="chapter" data-level="4.1" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#defining-the-quality-control-metrics"><i class="fa fa-check"></i><b>4.1</b> Defining the quality control metrics</a></li>
+<li class="chapter" data-level="4.2" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#identifying-outliers-for-each-metric"><i class="fa fa-check"></i><b>4.2</b> Identifying outliers for each metric</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="classification-of-cell-cycle-phase.html"><a href="classification-of-cell-cycle-phase.html"><i class="fa fa-check"></i><b>5</b> Classification of cell cycle phase</a></li>
+<li class="chapter" data-level="6" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html"><i class="fa fa-check"></i><b>6</b> Examining gene-level expression metrics</a><ul>
+<li class="chapter" data-level="6.1" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#inspecting-the-most-highly-expressed-genes"><i class="fa fa-check"></i><b>6.1</b> Inspecting the most highly expressed genes</a></li>
+<li class="chapter" data-level="6.2" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#filtering-out-low-abundance-genes"><i class="fa fa-check"></i><b>6.2</b> Filtering out low-abundance genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html"><i class="fa fa-check"></i><b>7</b> Normalization of cell-specific biases</a><ul>
+<li class="chapter" data-level="7.1" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#using-the-deconvolution-method-to-deal-with-zero-counts"><i class="fa fa-check"></i><b>7.1</b> Using the deconvolution method to deal with zero counts</a></li>
+<li class="chapter" data-level="7.2" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#computing-separate-size-factors-for-spike-in-transcripts"><i class="fa fa-check"></i><b>7.2</b> Computing separate size factors for spike-in transcripts</a></li>
+<li class="chapter" data-level="7.3" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#applying-the-size-factors-to-normalize-gene-expression"><i class="fa fa-check"></i><b>7.3</b> Applying the size factors to normalize gene expression</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modelling-the-technical-noise-in-gene-expression.html"><a href="modelling-the-technical-noise-in-gene-expression.html"><i class="fa fa-check"></i><b>8</b> Modelling the technical noise in gene expression</a></li>
+<li class="chapter" data-level="9" data-path="removing-the-batch-effect.html"><a href="removing-the-batch-effect.html"><i class="fa fa-check"></i><b>9</b> Removing the batch effect</a></li>
+<li class="chapter" data-level="10" data-path="denoising-expression-values-using-pca.html"><a href="denoising-expression-values-using-pca.html"><i class="fa fa-check"></i><b>10</b> Denoising expression values using PCA</a></li>
+<li class="chapter" data-level="11" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html"><i class="fa fa-check"></i><b>11</b> Visualizing data in low-dimensional space</a><ul>
+<li class="chapter" data-level="11.1" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-pca"><i class="fa fa-check"></i><b>11.1</b> With PCA</a></li>
+<li class="chapter" data-level="11.2" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-t-sne"><i class="fa fa-check"></i><b>11.2</b> With <em>t</em>-SNE</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html"><i class="fa fa-check"></i><b>12</b> Clustering cells into putative subpopulations</a><ul>
+<li class="chapter" data-level="12.1" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#defining-cell-clusters-from-expression-data"><i class="fa fa-check"></i><b>12.1</b> Defining cell clusters from expression data</a></li>
+<li class="chapter" data-level="12.2" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#detecting-marker-genes-between-clusters"><i class="fa fa-check"></i><b>12.2</b> Detecting marker genes between clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="concluding-remarks.html"><a href="concluding-remarks.html"><i class="fa fa-check"></i><b>13</b> Concluding remarks</a></li>
+<li class="chapter" data-level="14" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>14</b> References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/AJABADI/" target="blank">See on GitHub</a></li>
 
@@ -78,7 +186,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Simple Single Cell</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</a>
           </h1>
         </div>
 
@@ -87,14 +195,171 @@
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Simple Single Cell</h1>
-<h4 class="author"><em><div class="line-block">Aaron T. L. Lun<br />
-Al J Abadi</div></em></h4>
-<h4 class="date"><em>2018-10-25</em></h4>
+<h1 class="title">Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</h1>
+<h4 class="author"><em>Aaron T. L. Lun</em></h4>
+<address class="author_afil">
+Cancer Research UK Cambridge Institute, Li Ka Shing Centre, Robinson Way, Cambridge CB2 0RE, United Kingdom<br><h4 class="author"><em>Davis J. McCarthy</em></h4>
+<address class="author_afil">
+EMBL European Bioinformatics Institute, Wellcome Genome Campus, Hinxton, Cambridge CB10 1SD, United Kingdom<br><h4 class="author"><em>John C. Marioni</em></h4>
+<address class="author_afil">
+Cancer Research UK Cambridge Institute, Li Ka Shing Centre, Robinson Way, Cambridge CB2 0RE, United Kingdom<br><h4 class="date"><em>2018-10-25</em></h4>
 </div>
-<div id="title-of-section-1" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Title of Section 1</h1>
+<div id="intro" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Intro</h1>
+<div id="workflow-version-information" class="section level2">
+<h2><span class="header-section-number">1.1</span> Workflow version information</h2>
+<p><strong>R version</strong>: R version 3.5.0 (2018-04-23)</p>
+<p><strong>Bioconductor version</strong>: 3.7</p>
+<p><strong>Package</strong>: 1.2.1</p>
+</div>
+<div id="motivation" class="section level2">
+<h2><span class="header-section-number">1.2</span> Motivation</h2>
+<p>Single-cell RNA sequencing (scRNA-seq) is widely used to measure the genome-wide expression profile of individual cells.
+From each cell, mRNA is isolated and reverse transcribed to cDNA for high-throughput sequencing <span class="citation">(Stegle, Teichmann, and Marioni <a href="#ref-stegle2015computational">2015</a>)</span>.
+This can be done using microfluidics platforms like the Fluidigm C1 <span class="citation">(Pollen et al. <a href="#ref-pollen2014lowcoverage">2014</a>)</span>, protocols based on microtiter plates like Smart-seq2 <span class="citation">(Picelli et al. <a href="#ref-picelli2014fulllength">2014</a>)</span>, or droplet-based technologies like inDrop <span class="citation">(Klein et al. <a href="#ref-klein2015droplet">2015</a>; Macosko et al. <a href="#ref-macosko2015highly">2015</a>)</span>.
+The number of reads mapped to each gene is then used to quantify its expression in each cell.
+Alternatively, unique molecular identifiers (UMIs) can be used to directly measure the number of transcript molecules for each gene <span class="citation">(Islam et al. <a href="#ref-islam2014quantitative">2014</a>)</span>.
+Count data are analyzed to detect highly variable genes (HVGs) that drive heterogeneity across cells in a population, to find correlations between genes and cellular phenotypes, or to identify new subpopulations via dimensionality reduction and clustering.
+This provides biological insights at a single-cell resolution that cannot be achieved with conventional bulk RNA sequencing of cell populations.</p>
+<p>Strategies for scRNA-seq data analysis differ markedly from those for bulk RNA-seq.
+One technical reason is that scRNA-seq data are much noisier than bulk data <span class="citation">(Brennecke et al. <a href="#ref-brennecke2013accounting">2013</a>; Marinov et al. <a href="#ref-marinov2014singlecell">2014</a>)</span>.
+Reliable capture (i.e., conversion) of transcripts into cDNA for sequencing is difficult with the low quantity of RNA in a single cell.
+This increases the frequency of drop-out events where none of the transcripts for a gene are captured.
+Dedicated steps are required to deal with this noise during analysis, especially during quality control.
+In addition, scRNA-seq data can be used to study cell-to-cell heterogeneity, e.g., to identify new cell subtypes, to characterize differentiation processes, to assign cells into their cell cycle phases, or to identify HVGs driving variability across the population <span class="citation">(Vallejos, Marioni, and Richardson <a href="#ref-vallejos2015basics">2015</a>; Fan et al. <a href="#ref-fan2016characterizing">2016</a>; Trapnell et al. <a href="#ref-trapnell2014dynamics">2014</a>)</span>.
+This is simply not possible with bulk data, meaning that custom methods are required to perform these analyses.</p>
+</div>
+<div id="scrna-seq-data-analysis-with-bioconductor" class="section level2">
+<h2><span class="header-section-number">1.3</span> scRNA-seq data analysis with Bioconductor</h2>
+<p>This package contains a set of computational workflows for basic analysis of scRNA-seq data, using software from the open-source Bioconductor project <span class="citation">(Huber et al. <a href="#ref-huber2015orchestrating">2015</a>)</span>.
+The workflows start from a count matrix and describe a number of key steps for scRNA-seq data analysis, including quality control to remove problematic cells; normalization of cell-specific biases, with and without spike-ins; correction for batch effects; cell cycle phase classification from gene expression data; data exploration to identify putative subpopulations; and finally, HVG and marker gene identification to prioritize interesting genes.
+The application of these procedures will be demonstrated on several public scRNA-seq datasets involving immortalized myeloid progenitors, brain cells, haematopoietic stem cells, T-helper cells and mouse embryonic stem cells, generated with a range of experimental protocols and platforms <span class="citation">(Lun et al. <a href="#ref-lun2017assessing">2017</a>; Wilson et al. <a href="#ref-wilson2015combined">2015</a>; Zeisel et al. <a href="#ref-zeisel2015brain">2015</a>; Islam et al. <a href="#ref-islam2011characterization">2011</a>; Buettner et al. <a href="#ref-buettner2015computational">2015</a>; Zheng et al. <a href="#ref-zheng2017massively">2017</a>)</span>.
+The aim is to provide a variety of modular usage examples that can be applied to construct custom analysis pipelines.</p>
+<p>See the <em><a href="http://bioconductor.org/packages/simpleSingleCell">simpleSingleCell</a></em> landing page for links to individual workflows and for instructions on how to install the required packages.
+To cite any of these workflows, please refer to <a href="http://f1000research.com/articles/5-2122/v2" class="uri">http://f1000research.com/articles/5-2122/v2</a> for instructions.</p>
+</div>
+<div id="obtaining-a-count-matrix" class="section level2">
+<h2><span class="header-section-number">1.4</span> Obtaining a count matrix</h2>
+<p>All of these workflows start from a publicly available count matrix.
+For simplicity, we forego a description of the read processing steps required to generate the count matrix, i.e., read alignment and counting into features.
+These steps have been described in some detail elsewhere <span class="citation">(Love et al. <a href="#ref-love2015rnaseq">2015</a>; Chen, Lun, and Smyth <a href="#ref-chen2016from">2016</a>)</span>, and are largely the same for bulk and single-cell data.
+For users favouring an R-based approach to read alignment and counting, we suggest using the methods in the <em><a href="http://bioconductor.org/packages/Rsubread">Rsubread</a></em> package <span class="citation">(Liao, Smyth, and Shi <a href="#ref-liao2013subread">2013</a>, <a href="#ref-liao2014featurecounts">2014</a>)</span>.</p>
+<p>Some considerations specific to single-cell data may also be relevant, depending on the experimental protocol used to generate the data:</p>
+<ul>
+<li>If spike-in RNA was added, the sequences of the spike-in transcripts can be included as additional FASTA files during genome index building prior to alignment.
+Similarly, genomic intervals for both spike-in transcripts and endogenous genes can be concatenated into a single GTF file prior to counting.</li>
+<li>If UMIs are present, these should be extracted from the read sequence prior to alignment, e.g., with the <em>UMI-tools</em> software <span class="citation">(Smith, Heger, and Sudbery <a href="#ref-smith2017umitools">2017</a>)</span>.
+Reads with the same UMI mapping to the same gene represent a single underlying transcript molecule and only increment the count of that gene by one.</li>
+<li>Alignment-free methods such as <em>kallisto</em> <span class="citation">(Bray et al. <a href="#ref-bray2016near">2016</a>)</span> or <em>Salmon</em> <span class="citation">(Patro, Duggal, and Kingsford <a href="#ref-patro2015accurate">2015</a>)</span> may also be useful, due to their speed and ability to perform transcript quantification.
+This can be loaded into R using methods from the <em><a href="http://bioconductor.org/packages/tximport">tximport</a></em> package <span class="citation">(Soneson, Love, and Robinson <a href="#ref-soneson2015differential">2015</a>)</span>.</li>
+</ul>
+</div>
+<div id="author-information" class="section level2">
+<h2><span class="header-section-number">1.5</span> Author information</h2>
+<div id="author-contributions" class="section level3">
+<h3><span class="header-section-number">1.5.1</span> Author contributions</h3>
+<p>A.T.L.L. developed and tested workflows on all datasets.
+A.T.L.L. and D.J.M. implemented improvements to the software packages required by the workflow.
+J.C.M. provided direction to the software and workflow development.
+All authors wrote and approved the final manuscript.</p>
+</div>
+<div id="competing-interests" class="section level3">
+<h3><span class="header-section-number">1.5.2</span> Competing interests</h3>
+<p>No competing interests were disclosed.</p>
+</div>
+<div id="grant-information" class="section level3">
+<h3><span class="header-section-number">1.5.3</span> Grant information</h3>
+<p>A.T.L.L. and J.C.M. were supported by core funding from Cancer Research UK (award no. A17197).
+D.J.M. was supported by a CJ Martin Fellowship from the National Health and Medical Research Council of Australia.
+D.J.M and J.C.M. were also supported by core funding from EMBL.</p>
+</div>
+<div id="acknowledgements" class="section level3">
+<h3><span class="header-section-number">1.5.4</span> Acknowledgements</h3>
+<p>We would like to thank Antonio Scialdone for helpful discussions, as well as Michael Epstein, James R. Smith and John Wilson-Kanamori for testing the workflow on other datasets.</p>
 
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-stegle2015computational">
+<p>Stegle, O., S. A. Teichmann, and J. C. Marioni. 2015. “Computational and analytical challenges in single-cell transcriptomics.” <em>Nat. Rev. Genet.</em> 16 (3): 133–45.</p>
+</div>
+<div id="ref-pollen2014lowcoverage">
+<p>Pollen, A. A., T. J. Nowakowski, J. Shuga, X. Wang, A. A. Leyrat, J. H. Lui, N. Li, et al. 2014. “Low-coverage single-cell mRNA sequencing reveals cellular heterogeneity and activated signaling pathways in developing cerebral cortex.” <em>Nat. Biotechnol.</em> 32 (10): 1053–8.</p>
+</div>
+<div id="ref-picelli2014fulllength">
+<p>Picelli, S., O. R. Faridani, A. K. Bjorklund, G. Winberg, S. Sagasser, and R. Sandberg. 2014. “Full-length RNA-seq from single cells using Smart-seq2.” <em>Nat Protoc</em> 9 (1): 171–81.</p>
+</div>
+<div id="ref-klein2015droplet">
+<p>Klein, A. M., L. Mazutis, I. Akartuna, N. Tallapragada, A. Veres, V. Li, L. Peshkin, D. A. Weitz, and M. W. Kirschner. 2015. “Droplet barcoding for single-cell transcriptomics applied to embryonic stem cells.” <em>Cell</em> 161 (5): 1187–1201.</p>
+</div>
+<div id="ref-macosko2015highly">
+<p>Macosko, E. Z., A. Basu, R. Satija, J. Nemesh, K. Shekhar, M. Goldman, I. Tirosh, et al. 2015. “Highly parallel genome-wide expression profiling of individual cells using nanoliter droplets.” <em>Cell</em> 161 (5): 1202–14.</p>
+</div>
+<div id="ref-islam2014quantitative">
+<p>Islam, S., A. Zeisel, S. Joost, G. La Manno, P. Zajac, M. Kasper, P. Lonnerberg, and S. Linnarsson. 2014. “Quantitative single-cell RNA-seq with unique molecular identifiers.” <em>Nat. Methods</em> 11 (2): 163–66.</p>
+</div>
+<div id="ref-brennecke2013accounting">
+<p>Brennecke, P., S. Anders, J. K. Kim, A. A. Kołodziejczyk, X. Zhang, V. Proserpio, B. Baying, et al. 2013. “Accounting for technical noise in single-cell RNA-seq experiments.” <em>Nat. Methods</em> 10 (11): 1093–5.</p>
+</div>
+<div id="ref-marinov2014singlecell">
+<p>Marinov, G. K., B. A. Williams, K. McCue, G. P. Schroth, J. Gertz, R. M. Myers, and B. J. Wold. 2014. “From single-cell to cell-pool transcriptomes: stochasticity in gene expression and RNA splicing.” <em>Genome Res.</em> 24 (3): 496–510.</p>
+</div>
+<div id="ref-vallejos2015basics">
+<p>Vallejos, C. A., J. C. Marioni, and S. Richardson. 2015. “BASiCS: Bayesian analysis of single-cell sequencing data.” <em>PLoS Comput. Biol.</em> 11 (6): e1004333.</p>
+</div>
+<div id="ref-fan2016characterizing">
+<p>Fan, J., N. Salathia, R. Liu, G. E. Kaeser, Y. C. Yung, J. L. Herman, F. Kaper, et al. 2016. “Characterizing transcriptional heterogeneity through pathway and gene set overdispersion analysis.” <em>Nat. Methods</em> 13 (3): 241–44.</p>
+</div>
+<div id="ref-trapnell2014dynamics">
+<p>Trapnell, C., D. Cacchiarelli, J. Grimsby, P. Pokharel, S. Li, M. Morse, N. J. Lennon, K. J. Livak, T. S. Mikkelsen, and J. L. Rinn. 2014. “The dynamics and regulators of cell fate decisions are revealed by pseudotemporal ordering of single cells.” <em>Nat. Biotechnol.</em> 32 (4): 381–86.</p>
+</div>
+<div id="ref-huber2015orchestrating">
+<p>Huber, W., V. J. Carey, R. Gentleman, S. Anders, M. Carlson, B. S. Carvalho, H. C. Bravo, et al. 2015. “Orchestrating high-throughput genomic analysis with Bioconductor.” <em>Nat. Methods</em> 12 (2): 115–21.</p>
+</div>
+<div id="ref-lun2017assessing">
+<p>Lun, A. T. L., F. J. Calero-Nieto, L. Haim-Vilmovsky, B. Gottgens, and J. C. Marioni. 2017. “Assessing the reliability of spike-in normalization for analyses of single-cell RNA sequencing data.” <em>Genome Res.</em> 27 (11): 1795–1806.</p>
+</div>
+<div id="ref-wilson2015combined">
+<p>Wilson, N. K., D. G. Kent, F. Buettner, M. Shehata, I. C. Macaulay, F. J. Calero-Nieto, M. Sanchez Castillo, et al. 2015. “Combined single-cell functional and gene expression analysis resolves heterogeneity within stem cell populations.” <em>Cell Stem Cell</em> 16 (6): 712–24.</p>
+</div>
+<div id="ref-zeisel2015brain">
+<p>Zeisel, A., A. B. Munoz-Manchado, S. Codeluppi, P. Lonnerberg, G. La Manno, A. Jureus, S. Marques, et al. 2015. “Brain structure. Cell types in the mouse cortex and hippocampus revealed by single-cell RNA-seq.” <em>Science</em> 347 (6226): 1138–42.</p>
+</div>
+<div id="ref-islam2011characterization">
+<p>Islam, S., U. Kjallquist, A. Moliner, P. Zajac, J. B. Fan, P. Lonnerberg, and S. Linnarsson. 2011. “Characterization of the single-cell transcriptional landscape by highly multiplex RNA-seq.” <em>Genome Res.</em> 21 (7): 1160–7.</p>
+</div>
+<div id="ref-buettner2015computational">
+<p>Buettner, F., K. N. Natarajan, F. P. Casale, V. Proserpio, A. Scialdone, F. J. Theis, S. A. Teichmann, J. C. Marioni, and O. Stegle. 2015. “Computational analysis of cell-to-cell heterogeneity in single-cell RNA-sequencing data reveals hidden subpopulations of cells.” <em>Nat. Biotechnol.</em> 33 (2): 155–60.</p>
+</div>
+<div id="ref-zheng2017massively">
+<p>Zheng, G. X., J. M. Terry, P. Belgrader, P. Ryvkin, Z. W. Bent, R. Wilson, S. B. Ziraldo, et al. 2017. “Massively parallel digital transcriptional profiling of single cells.” <em>Nat Commun</em> 8 (January): 14049.</p>
+</div>
+<div id="ref-love2015rnaseq">
+<p>Love, M. I., S. Anders, V. Kim, and W. Huber. 2015. “RNA-Seq workflow: gene-level exploratory analysis and differential expression.” <em>F1000Res</em> 4: 1070.</p>
+</div>
+<div id="ref-chen2016from">
+<p>Chen, Y., A. T. Lun, and G. K. Smyth. 2016. “From reads to genes to pathways: differential expression analysis of RNA-Seq experiments using Rsubread and the edgeR quasi-likelihood pipeline.” <em>F1000Res</em> 5: 1438.</p>
+</div>
+<div id="ref-liao2013subread">
+<p>Liao, Y., G. K. Smyth, and W. Shi. 2013. “The Subread aligner: fast, accurate and scalable read mapping by seed-and-vote.” <em>Nucleic Acids Res.</em> 41 (10): e108.</p>
+</div>
+<div id="ref-liao2014featurecounts">
+<p>Liao, Y., G. K. Smyth, and W. Shi. 2013. “The Subread aligner: fast, accurate and scalable read mapping by seed-and-vote.” <em>Nucleic Acids Res.</em> 41 (10): e108.</p> 2014. “featureCounts: an efficient general purpose program for assigning sequence reads to genomic features.” <em>Bioinformatics</em> 30 (7): 923–30.</p>
+</div>
+<div id="ref-smith2017umitools">
+<p>Smith, T., A. Heger, and I. Sudbery. 2017. “UMI-tools: modeling sequencing errors in Unique Molecular Identifiers to improve quantification accuracy.” <em>Genome Res.</em> 27 (3): 491–99.</p>
+</div>
+<div id="ref-bray2016near">
+<p>Bray, N. L., H. Pimentel, P. Melsted, and L. Pachter. 2016. “Near-optimal probabilistic RNA-seq quantification.” <em>Nat. Biotechnol.</em> 34 (5): 525–27.</p>
+</div>
+<div id="ref-patro2015accurate">
+<p>Patro, Rob, Geet Duggal, and Carl Kingsford. 2015. “Accurate, Fast, and Model-Aware Transcript Expression Quantification with Salmon.” <em>bioRxiv</em>. Cold Spring Harbor Labs Journals. <a href="https://doi.org/10.1101/021592">https://doi.org/10.1101/021592</a>.</p>
+</div>
+<div id="ref-soneson2015differential">
+<p>Soneson, C., M. I. Love, and M. D. Robinson. 2015. “Differential analyses for RNA-seq: transcript-level estimates improve gene-level inferences.” <em>F1000Res</em> 4: 1521.</p>
+</div>
 </div>
             </section>
 
@@ -102,7 +367,7 @@ Al J Abadi</div></em></h4>
         </div>
       </div>
 
-
+<a href="overview.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -143,6 +408,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

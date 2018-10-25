@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</title>
+  <meta name="description" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor">
+  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Workflows for analyzing single-cell RNA-seq data with R/Bioconductor" />
+  
+  
+  
+
+
+
+<meta name="date" content="2018-10-25">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="setting-up-the-data.html">
+<link rel="next" href="classification-of-cell-cycle-phase.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Low Level scRNA-seq Workflow</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Intro</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#workflow-version-information"><i class="fa fa-check"></i><b>1.1</b> Workflow version information</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#motivation"><i class="fa fa-check"></i><b>1.2</b> Motivation</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#scrna-seq-data-analysis-with-bioconductor"><i class="fa fa-check"></i><b>1.3</b> scRNA-seq data analysis with Bioconductor</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#obtaining-a-count-matrix"><i class="fa fa-check"></i><b>1.4</b> Obtaining a count matrix</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-information"><i class="fa fa-check"></i><b>1.5</b> Author information</a><ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#author-contributions"><i class="fa fa-check"></i><b>1.5.1</b> Author contributions</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#competing-interests"><i class="fa fa-check"></i><b>1.5.2</b> Competing interests</a></li>
+<li class="chapter" data-level="1.5.3" data-path="index.html"><a href="index.html#grant-information"><i class="fa fa-check"></i><b>1.5.3</b> Grant information</a></li>
+<li class="chapter" data-level="1.5.4" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.5.4</b> Acknowledgements</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>2</b> Overview</a></li>
+<li class="chapter" data-level="3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html"><i class="fa fa-check"></i><b>3</b> Setting up the data</a><ul>
+<li class="chapter" data-level="3.1" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#loading-in-the-count-matrix"><i class="fa fa-check"></i><b>3.1</b> Loading in the count matrix</a></li>
+<li class="chapter" data-level="3.2" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-cell-based-annotation"><i class="fa fa-check"></i><b>3.2</b> Incorporating cell-based annotation</a></li>
+<li class="chapter" data-level="3.3" data-path="setting-up-the-data.html"><a href="setting-up-the-data.html#incorporating-gene-based-annotation"><i class="fa fa-check"></i><b>3.3</b> Incorporating gene-based annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html"><i class="fa fa-check"></i><b>4</b> Quality control on the cells</a><ul>
+<li class="chapter" data-level="4.1" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#defining-the-quality-control-metrics"><i class="fa fa-check"></i><b>4.1</b> Defining the quality control metrics</a></li>
+<li class="chapter" data-level="4.2" data-path="quality-control-on-the-cells.html"><a href="quality-control-on-the-cells.html#identifying-outliers-for-each-metric"><i class="fa fa-check"></i><b>4.2</b> Identifying outliers for each metric</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="classification-of-cell-cycle-phase.html"><a href="classification-of-cell-cycle-phase.html"><i class="fa fa-check"></i><b>5</b> Classification of cell cycle phase</a></li>
+<li class="chapter" data-level="6" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html"><i class="fa fa-check"></i><b>6</b> Examining gene-level expression metrics</a><ul>
+<li class="chapter" data-level="6.1" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#inspecting-the-most-highly-expressed-genes"><i class="fa fa-check"></i><b>6.1</b> Inspecting the most highly expressed genes</a></li>
+<li class="chapter" data-level="6.2" data-path="examining-gene-level-expression-metrics.html"><a href="examining-gene-level-expression-metrics.html#filtering-out-low-abundance-genes"><i class="fa fa-check"></i><b>6.2</b> Filtering out low-abundance genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html"><i class="fa fa-check"></i><b>7</b> Normalization of cell-specific biases</a><ul>
+<li class="chapter" data-level="7.1" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#using-the-deconvolution-method-to-deal-with-zero-counts"><i class="fa fa-check"></i><b>7.1</b> Using the deconvolution method to deal with zero counts</a></li>
+<li class="chapter" data-level="7.2" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#computing-separate-size-factors-for-spike-in-transcripts"><i class="fa fa-check"></i><b>7.2</b> Computing separate size factors for spike-in transcripts</a></li>
+<li class="chapter" data-level="7.3" data-path="normalization-of-cell-specific-biases.html"><a href="normalization-of-cell-specific-biases.html#applying-the-size-factors-to-normalize-gene-expression"><i class="fa fa-check"></i><b>7.3</b> Applying the size factors to normalize gene expression</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="modelling-the-technical-noise-in-gene-expression.html"><a href="modelling-the-technical-noise-in-gene-expression.html"><i class="fa fa-check"></i><b>8</b> Modelling the technical noise in gene expression</a></li>
+<li class="chapter" data-level="9" data-path="removing-the-batch-effect.html"><a href="removing-the-batch-effect.html"><i class="fa fa-check"></i><b>9</b> Removing the batch effect</a></li>
+<li class="chapter" data-level="10" data-path="denoising-expression-values-using-pca.html"><a href="denoising-expression-values-using-pca.html"><i class="fa fa-check"></i><b>10</b> Denoising expression values using PCA</a></li>
+<li class="chapter" data-level="11" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html"><i class="fa fa-check"></i><b>11</b> Visualizing data in low-dimensional space</a><ul>
+<li class="chapter" data-level="11.1" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-pca"><i class="fa fa-check"></i><b>11.1</b> With PCA</a></li>
+<li class="chapter" data-level="11.2" data-path="visualizing-data-in-low-dimensional-space.html"><a href="visualizing-data-in-low-dimensional-space.html#with-t-sne"><i class="fa fa-check"></i><b>11.2</b> With <em>t</em>-SNE</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html"><i class="fa fa-check"></i><b>12</b> Clustering cells into putative subpopulations</a><ul>
+<li class="chapter" data-level="12.1" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#defining-cell-clusters-from-expression-data"><i class="fa fa-check"></i><b>12.1</b> Defining cell clusters from expression data</a></li>
+<li class="chapter" data-level="12.2" data-path="clustering-cells-into-putative-subpopulations.html"><a href="clustering-cells-into-putative-subpopulations.html#detecting-marker-genes-between-clusters"><i class="fa fa-check"></i><b>12.2</b> Detecting marker genes between clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="concluding-remarks.html"><a href="concluding-remarks.html"><i class="fa fa-check"></i><b>13</b> Concluding remarks</a></li>
+<li class="chapter" data-level="14" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>14</b> References</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/AJABADI/" target="blank">See on GitHub</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workflows for analyzing single-cell RNA-seq data with R/Bioconductor</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="quality-control-on-the-cells" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Quality control on the cells</h1>
+<div id="defining-the-quality-control-metrics" class="section level2">
+<h2><span class="header-section-number">4.1</span> Defining the quality control metrics</h2>
+<p>Low-quality cells need to be removed to ensure that technical effects do not distort downstream analysis results.
+We use several quality control (QC) metrics:</p>
+<ul>
+<li>The library size is defined as the total sum of counts across all features, i.e., genes and spike-in transcripts.
+Cells with small library sizes are of low quality as the RNA has not been efficiently captured (i.e., converted into cDNA and amplified) during library preparation.</li>
+<li>The number of expressed features in each cell is defined as the number of features with non-zero counts for that cell.
+Any cell with very few expressed genes is likely to be of poor quality as the diverse transcript population has not been successfully captured.</li>
+<li>The proportion of reads mapped to spike-in transcripts is calculated relative to the library size for each cell.
+High proportions are indicative of poor-quality cells, where endogenous RNA has been lost during processing (e.g., due to cell lysis or RNA degradation).
+The same amount of spike-in RNA to each cell, so an enrichment in spike-in counts is symptomatic of loss of endogenous RNA.</li>
+<li>In the absence of spike-in transcripts, the proportion of reads mapped to genes in the mitochondrial genome can also be used.
+High proportions are indicative of poor-quality cells <span class="citation">(Islam et al. <a href="#ref-islam2014quantitative">2014</a>; Ilicic et al. <a href="#ref-ilicic2016classification">2016</a>)</span>, possibly because of loss of cytoplasmic RNA from perforated cells.
+The reasoning is that mitochondria are larger than individual transcript molecules and less likely to escape through tears in the cell membrane.</li>
+</ul>
+<p>For each cell, we calculate these quality control metrics using the <code>calculateQCMetrics</code> function from the <em><a href="http://bioconductor.org/packages/scater">scater</a></em> package <span class="citation">(McCarthy et al. <a href="#ref-mccarthy2017scater">2017</a>)</span>.
+These are stored in the row- and column-wise metadata of the <code>SingleCellExperiment</code> for future reference.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(scater)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">mito &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rowData</span>(sce)<span class="op">$</span>CHR<span class="op">==</span><span class="st">&quot;chrM&quot;</span>)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">sce &lt;-<span class="st"> </span><span class="kw">calculateQCMetrics</span>(sce, <span class="dt">feature_controls=</span><span class="kw">list</span>(<span class="dt">Mt=</span>mito))</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="kw">head</span>(<span class="kw">colnames</span>(<span class="kw">colData</span>(sce)), <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>##  [1] &quot;Plate&quot;                          &quot;Oncogene&quot;                      
+##  [3] &quot;is_cell_control&quot;                &quot;total_features_by_counts&quot;      
+##  [5] &quot;log10_total_features_by_counts&quot; &quot;total_counts&quot;                  
+##  [7] &quot;log10_total_counts&quot;             &quot;pct_counts_in_top_50_features&quot; 
+##  [9] &quot;pct_counts_in_top_100_features&quot; &quot;pct_counts_in_top_200_features&quot;</code></pre>
+<p>The distributions of these metrics are shown in Figure <a href="quality-control-on-the-cells.html#fig:qcplot416b">4.1</a>, stratified by oncogene induction status and plate of origin.
+The aim is to remove putative low-quality cells that have low library sizes, low numbers of expressed features, and high spike-in (or mitochondrial) proportions.
+Such cells can interfere with downstream analyses, e.g., by forming distinct clusters that complicate interpretation of the results.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">sce<span class="op">$</span>PlateOnco &lt;-<span class="st"> </span><span class="kw">paste0</span>(sce<span class="op">$</span>Oncogene, <span class="st">&quot;.&quot;</span>, sce<span class="op">$</span>Plate)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">multiplot</span>(</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">    <span class="kw">plotColData</span>(sce, <span class="dt">y=</span><span class="st">&quot;total_counts&quot;</span>, <span class="dt">x=</span><span class="st">&quot;PlateOnco&quot;</span>),</a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">    <span class="kw">plotColData</span>(sce, <span class="dt">y=</span><span class="st">&quot;total_features_by_counts&quot;</span>, <span class="dt">x=</span><span class="st">&quot;PlateOnco&quot;</span>),</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">    <span class="kw">plotColData</span>(sce, <span class="dt">y=</span><span class="st">&quot;pct_counts_ERCC&quot;</span>, <span class="dt">x=</span><span class="st">&quot;PlateOnco&quot;</span>),</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">    <span class="kw">plotColData</span>(sce, <span class="dt">y=</span><span class="st">&quot;pct_counts_Mt&quot;</span>, <span class="dt">x=</span><span class="st">&quot;PlateOnco&quot;</span>),</a>
+<a class="sourceLine" id="cb23-7" data-line-number="7">    <span class="dt">cols=</span><span class="dv">2</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:qcplot416b"></span>
+<img src="simpleSingleCell_files/figure-html/qcplot416b-1.png" alt="Distributions of various QC metrics for all cells in the 416B dataset. This includes the library sizes, number of expressed genes, and proportion of reads mapped to spike-in transcripts or mitochondrial genes." width="672" />
+<p class="caption">
+Figure 4.1: Distributions of various QC metrics for all cells in the 416B dataset. This includes the library sizes, number of expressed genes, and proportion of reads mapped to spike-in transcripts or mitochondrial genes.
+</p>
+</div>
+<p>It is also valuable to examine how the QC metrics behave with respect to each other (Figure <a href="quality-control-on-the-cells.html#fig:qcbiplot416b">4.2</a>).
+Generally, they will be in rough agreement, i.e., cells with low total counts will also have low numbers of expressed features and high ERCC/mitochondrial proportions.
+Clear discrepancies may correspond to technical differences between batches of cells (see below) or genuine biological differences in RNA content.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">plot</span>(sce<span class="op">$</span>total_features_by_counts, sce<span class="op">$</span>total_counts<span class="op">/</span><span class="fl">1e6</span>, <span class="dt">xlab=</span><span class="st">&quot;Number of expressed genes&quot;</span>,</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">    <span class="dt">ylab=</span><span class="st">&quot;Library size (millions)&quot;</span>)</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="kw">plot</span>(sce<span class="op">$</span>total_features_by_counts, sce<span class="op">$</span>pct_counts_ERCC, <span class="dt">xlab=</span><span class="st">&quot;Number of expressed genes&quot;</span>,</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">    <span class="dt">ylab=</span><span class="st">&quot;ERCC proportion (%)&quot;</span>)</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="kw">plot</span>(sce<span class="op">$</span>total_features_by_counts, sce<span class="op">$</span>pct_counts_Mt, <span class="dt">xlab=</span><span class="st">&quot;Number of expressed genes&quot;</span>,</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">    <span class="dt">ylab=</span><span class="st">&quot;Mitochondrial proportion (%)&quot;</span>)</a></code></pre></div>
+<div class="figure"><span id="fig:qcbiplot416b"></span>
+<img src="simpleSingleCell_files/figure-html/qcbiplot416b-1.png" alt="Behaviour of each QC metric compared to the total number of expressed features. Each point represents a cell in the 416B dataset." width="960" />
+<p class="caption">
+Figure 4.2: Behaviour of each QC metric compared to the total number of expressed features. Each point represents a cell in the 416B dataset.
+</p>
+</div>
+</div>
+<div id="identifying-outliers-for-each-metric" class="section level2">
+<h2><span class="header-section-number">4.2</span> Identifying outliers for each metric</h2>
+<p>Picking a threshold for these metrics is not straightforward as their absolute values depend on the experimental protocol.
+For example, sequencing to greater depth will lead to more reads and more expressed features, regardless of the quality of the cells.
+Similarly, using more spike-in RNA in the protocol will result in higher spike-in proportions.
+To obtain an adaptive threshold, we assume that most of the dataset consists of high-quality cells, and identify cells that are outliers for the various QC metrics.</p>
+<p>Outliers are defined based on the median absolute deviation (MADs) from the median value of each metric across all cells.
+We remove cells with log-library sizes that are more than 3 MADs below the median log-library size.
+A log-transformation improves resolution at small values, especially when the MAD of the raw values is comparable to or greater than the median.
+We also remove cells where the log-transformed number of expressed genes is 3 MADs below the median value.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">libsize.drop &lt;-<span class="st"> </span><span class="kw">isOutlier</span>(sce<span class="op">$</span>total_counts, <span class="dt">nmads=</span><span class="dv">3</span>, <span class="dt">type=</span><span class="st">&quot;lower&quot;</span>, </a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">    <span class="dt">log=</span><span class="ot">TRUE</span>, <span class="dt">batch=</span>sce<span class="op">$</span>PlateOnco)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">feature.drop &lt;-<span class="st"> </span><span class="kw">isOutlier</span>(sce<span class="op">$</span>total_features_by_counts, <span class="dt">nmads=</span><span class="dv">3</span>, <span class="dt">type=</span><span class="st">&quot;lower&quot;</span>, </a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">    <span class="dt">log=</span><span class="ot">TRUE</span>, <span class="dt">batch=</span>sce<span class="op">$</span>PlateOnco)</a></code></pre></div>
+<p>The <code>batch=</code> argument ensures that outliers are identified <em>within</em> each level of the specified plate/oncogene factor.
+This allows <code>isOutlier()</code> to accommodate systematic differences in the QC metrics across plates (Figure <a href="quality-control-on-the-cells.html#fig:qcplot416b">4.1</a>),
+which can arise due to technical differences in processing (e.g., differences in sequencing depth) rather than any changes in quality.
+The same reasoning applies to the oncogene induction status, where induced cells may have naturally fewer expressed genes for biological reasons.
+Failing to account for these systematic differences would inflate the MAD estimate and compromise the removal of low-quality cells.</p>
+<p>We identify outliers for the proportion-based metrics in a similar manner.
+Here, no transformation is required as we are identifying large outliers, for which the distinction should be fairly clear on the raw scale.
+We do not need to use the mitochondrial proportions as we already have the spike-in proportions (which serve a similar purpose) for this dataset.
+This avoids potential issues arising from genuine differences in mitochondrial content between cell types that may confound outlier identification.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">spike.drop &lt;-<span class="st"> </span><span class="kw">isOutlier</span>(sce<span class="op">$</span>pct_counts_ERCC, <span class="dt">nmads=</span><span class="dv">3</span>, <span class="dt">type=</span><span class="st">&quot;higher&quot;</span>,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">    <span class="dt">batch=</span>sce<span class="op">$</span>PlateOnco)</a></code></pre></div>
+<p>Subsetting by column will retain only the high-quality cells that pass each filter described above.
+We examine the number of cells removed by each filter as well as the total number of retained cells.
+Removal of a substantial proportion of cells (&gt; 10%) may be indicative of an overall issue with data quality.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">keep &lt;-<span class="st"> </span><span class="op">!</span>(libsize.drop <span class="op">|</span><span class="st"> </span>feature.drop <span class="op">|</span><span class="st"> </span>spike.drop)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">data.frame</span>(<span class="dt">ByLibSize=</span><span class="kw">sum</span>(libsize.drop), <span class="dt">ByFeature=</span><span class="kw">sum</span>(feature.drop),</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">    <span class="dt">BySpike=</span><span class="kw">sum</span>(spike.drop), <span class="dt">Remaining=</span><span class="kw">sum</span>(keep))</a></code></pre></div>
+<pre><code>##   ByLibSize ByFeature BySpike Remaining
+## 1         5         4       6       183</code></pre>
+<p>We then subset the <code>SingleCellExperiment</code> object to retain only the putative high-quality cells.
+We also save the original object to file for later use.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">sce<span class="op">$</span>PassQC &lt;-<span class="st"> </span>keep</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">saveRDS</span>(sce, <span class="dt">file=</span><span class="st">&quot;416B_preQC.rds&quot;</span>)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">sce &lt;-<span class="st"> </span>sce[,keep]</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="kw">dim</span>(sce)</a></code></pre></div>
+<pre><code>## [1] 46696   183</code></pre>
+<p><strong>Comments from Aaron:</strong></p>
+<ul>
+<li>See <em><a href="http://bioconductor.org/packages/simpleSingleCell">simpleSingleCell</a></em> vignette for a more detailed discussion of the assumptions underlying the outlier-based detection of low-quality cells.</li>
+<li><p><code>isOutlier()</code> will also return the exact filter thresholds for each metric (within each batch, if <code>batch=</code> is specified).
+These may be useful for checking whether the automatically selected thresholds are appropriate.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">attr</span>(libsize.drop, <span class="st">&quot;thresholds&quot;</span>)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">attr</span>(spike.drop, <span class="st">&quot;thresholds&quot;</span>)</a></code></pre></div>
+<pre><code>## NULL</code></pre></li>
+</ul>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-islam2014quantitative">
+<p>Islam, S., A. Zeisel, S. Joost, G. La Manno, P. Zajac, M. Kasper, P. Lonnerberg, and S. Linnarsson. 2014. “Quantitative single-cell RNA-seq with unique molecular identifiers.” <em>Nat. Methods</em> 11 (2): 163–66.</p>
+</div>
+<div id="ref-ilicic2016classification">
+<p>Ilicic, T., J. K. Kim, A. A. Kołodziejczyk, F. O. Bagger, D. J. McCarthy, J. C. Marioni, and S. A. Teichmann. 2016. “Classification of low quality cells from single-cell RNA-seq data.” <em>Genome Biol.</em> 17 (1): 29.</p>
+</div>
+<div id="ref-mccarthy2017scater">
+<p>McCarthy, D. J., K. R. Campbell, A. T. Lun, and Q. F. Wills. 2017. “Scater: pre-processing, quality control, normalization and visualization of single-cell RNA-seq data in R.” <em>Bioinformatics</em> 33 (8): 1179–86.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="setting-up-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="classification-of-cell-cycle-phase.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["simpleSingleCell.pdf", "simpleSingleCell.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
