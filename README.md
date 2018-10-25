@@ -1,0 +1,43 @@
+Package: simpleSingleCell 
+Title: A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor
+Version: 1.3.28
+Date: 2018-10-23
+Authors@R: c(person(role=c("aut", "cre"), "Aaron", "Lun", email = "infinite.monkeys.with.keyboards@gmail.com"),
+        person(role="aut", "Davis", "McCarthy"),
+        person(role="aut", "John", "Marioni"))
+Description: This workflow implements a low-level analysis pipeline for scRNA-seq data using scran, scater and other Bioconductor packages.
+             It describes how to perform quality control on the libraries, normalization of cell-specific biases, basic data exploration 
+             and cell cycle phase identification. Procedures to detect highly variable genes, significantly correlated genes and 
+             subpopulation-specific marker genes are also shown. These analyses are demonstrated on a range of publicly available scRNA-seq data sets. 
+Depends: R (>= 3.3.0),
+        BiocStyle,
+        knitr,
+        BiocParallel,
+        Rtsne,
+        mvoutlier,
+        destiny,
+        readxl,
+        gdata,
+        SingleCellExperiment,
+        scater,
+        org.Mm.eg.db,
+        scran,
+        limma,
+        pheatmap,
+        dynamicTreeCut,
+        cluster,
+        edgeR,
+        TxDb.Mmusculus.UCSC.mm10.ensGene,
+        scRNAseq,
+        DropletUtils,
+        BiocFileCache,
+        BiocNeighbors,
+        TENxBrainData
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+biocViews: Workflow, SingleCellWorkflow
+Suggests: knitr, rmarkdown
+NeedsCompilation: no
+URL: https://www.bioconductor.org/help/workflows/simpleSingleCell/ 
